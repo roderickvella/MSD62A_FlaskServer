@@ -1,0 +1,22 @@
+
+# A very simple Flask Hello World app for you to get started with...
+
+from flask import Flask, request
+import json
+
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+    return 'Hello from Mcast!'
+
+
+@app.route('/api/saveboxes',methods=['POST'])
+def passdata():
+    print("saving boxes on server")
+
+    content = request.get_json()
+    print(content)
+
+    return "Data Saved Correctly"
