@@ -7,6 +7,7 @@ using Proyecto26;
 public class GameManager : MonoBehaviour
 {
     private string baseURI = "http://gld62arod.pythonanywhere.com";
+    public GameObject boxPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +55,29 @@ public class GameManager : MonoBehaviour
             print(err.Message);
         });
 
+
+    }
+
+    [ContextMenu("Get Boxes")]
+    public void GetBoxes()
+    {
+        print("Getting boxes from server");
+        RestClient.GetArray<Box>(baseURI + "/api/getboxes").Then(allBoxes =>
+        {
+            //instantiate every box in the scene with loaded values
+            foreach(Box box in allBoxes)
+            {
+                GameObject boxCreated = Instantiate(boxPrefab, transform.position, Quaternion.identity);
+                boxCreated.transform.position = new Vector3(box.positionX, box.positionY, box.positionZ);
+            }
+        })
+        .Catch(error =>
+        {
+            var err = error as RequestException;
+            print(err.StatusCode);
+            print(err.Response);
+            print(err.Message);
+        });
 
     }
 }

@@ -1,7 +1,7 @@
 
 # A very simple Flask Hello World app for you to get started with...
 
-from flask import Flask, request
+from flask import Flask,request
 import json
 
 
@@ -19,4 +19,19 @@ def passdata():
     content = request.get_json()
     print(content)
 
+    fh = open("/home/gld62arod/mysite/datafile.txt","w")
+    fh.write(json.dumps(content))
+    fh.close()
+
     return "Data Saved Correctly"
+
+
+@app.route("/api/getboxes",methods=['GET'])
+def getdata():
+    #open file and read data
+    fh = open("/home/gld62arod/mysite/datafile.txt","r")
+    savedText = fh.read()
+    fh.close()
+
+    return savedText
+
